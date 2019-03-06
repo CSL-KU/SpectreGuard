@@ -1,0 +1,4 @@
+#!/bin/sh
+
+cd /usr/bin/spec/cactusADM
+./cactusADM_base.gcc43-64bit benchADM.par

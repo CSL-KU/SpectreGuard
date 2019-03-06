@@ -1,0 +1,4 @@
+#!/bin/sh
+
+cd /usr/bin/spec/bzip2
+./bzip2_base.gcc43-64bit input.source 280

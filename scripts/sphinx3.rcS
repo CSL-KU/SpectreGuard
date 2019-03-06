@@ -1,0 +1,4 @@
+#!/bin/sh
+
+cd /usr/bin/spec/sphinx3
+./sphinx_livepretend_base.gcc43-64bit ctlfile . args.an4

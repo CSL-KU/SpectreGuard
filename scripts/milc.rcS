@@ -1,0 +1,4 @@
+#!/bin/sh
+
+cd /usr/bin/spec/milc
+./milc_base.gcc43-64bit < su3imp.in

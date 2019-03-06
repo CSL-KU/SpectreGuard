@@ -1,0 +1,4 @@
+#!/bin/sh
+
+cd /usr/bin/spec/gamess
+./gamess_base.gcc43-64bit < triazolium.config

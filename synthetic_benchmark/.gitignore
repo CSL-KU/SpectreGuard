@@ -1,0 +1,6 @@
+aes_core.d.tmp
+aes_core.o
+specBench_base
+specBench_mask
+specBench_wbor
+stack_test

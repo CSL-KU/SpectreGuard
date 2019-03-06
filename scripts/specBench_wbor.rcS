@@ -1,0 +1,12 @@
+#!/bin/sh
+
+echo starting test specBench_wbor 75 2>&1 > /tmp/log
+/usr/bin/microbench/specBench_wbor 75 2>&1 >> /tmp/log
+echo starting test specBench_wbor 50 2>&1 >> /tmp/log
+/usr/bin/microbench/specBench_wbor 50 2>&1 >> /tmp/log
+echo starting test specBench_wbor 25 2>&1 >> /tmp/log
+/usr/bin/microbench/specBench_wbor 25 2>&1 >> /tmp/log
+echo starting test specBench_wbor 10 2>&1 >> /tmp/log
+/usr/bin/microbench/specBench_wbor 10 2>&1 >> /tmp/log
+echo all tests complete 2>&1 >> /tmp/log
+m5 writefile /tmp/log bench.out

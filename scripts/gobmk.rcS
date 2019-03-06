@@ -1,0 +1,4 @@
+#!/bin/sh
+
+cd /usr/bin/spec/gobmk
+./gobmk_base.gcc43-64bit --quiet --mode gtp < 13x13.tst

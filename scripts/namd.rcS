@@ -1,0 +1,4 @@
+#!/bin/sh
+
+cd /usr/bin/spec/namd
+./namd_base.gcc43-64bit --input namd.input --iterations 38 --output namd.out

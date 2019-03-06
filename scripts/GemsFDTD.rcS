@@ -1,0 +1,4 @@
+#!/bin/sh
+
+cd /usr/bin/spec/GemsFDTD
+./GemsFDTD_base.gcc43-64bit

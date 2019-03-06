@@ -1,0 +1,4 @@
+#!/bin/sh
+
+cd /usr/bin/spec/zeusmp
+./zeusmp_base.gcc43-64bit

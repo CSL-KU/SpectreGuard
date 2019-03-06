@@ -1,0 +1,4 @@
+#!/bin/sh
+
+cd /usr/bin/spec/libquantum
+./libquantum_base.gcc43-64bit 1397 8

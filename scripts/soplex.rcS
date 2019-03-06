@@ -1,0 +1,4 @@
+#!/bin/sh
+
+cd /usr/bin/spec/soplex
+./soplex_base.gcc43-64bit -m3500 ref.mps

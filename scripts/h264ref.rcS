@@ -1,0 +1,4 @@
+#!/bin/sh
+
+cd /usr/bin/spec/h264ref
+./h264ref_base.gcc43-64bit -d foreman_ref_encoder_baseline.cfg

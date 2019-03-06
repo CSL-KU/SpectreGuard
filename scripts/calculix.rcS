@@ -1,0 +1,4 @@
+#!/bin/sh
+
+cd /usr/bin/spec/calculix
+./calculix_base.gcc43-64bit -i  hyperviscoplastic

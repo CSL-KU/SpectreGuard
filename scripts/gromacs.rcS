@@ -1,0 +1,4 @@
+#!/bin/sh
+
+cd /usr/bin/spec/gromacs
+./gromacs_base.gcc43-64bit -silent -deffnm gromacs -nice 0

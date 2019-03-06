@@ -1,0 +1,4 @@
+#!/bin/sh
+
+cd /usr/bin/spec/hmmer
+./hmmer_base.gcc43-64bit nph3.hmm swiss41

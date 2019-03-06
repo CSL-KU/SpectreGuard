@@ -1,0 +1,4 @@
+#!/bin/sh
+
+cd /usr/bin/spec/bwaves
+./bwaves_base.gcc43-64bit

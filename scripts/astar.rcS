@@ -1,0 +1,4 @@
+#!/bin/sh
+
+cd /usr/bin/spec/astar
+./astar_base.gcc43-64bit rivers.cfg

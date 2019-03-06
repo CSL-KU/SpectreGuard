@@ -1,0 +1,4 @@
+#!/bin/sh
+
+cd /usr/bin/spec/mcf
+./mcf_base.gcc43-64bit inp.in

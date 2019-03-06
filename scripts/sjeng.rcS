@@ -1,0 +1,4 @@
+#!/bin/sh
+
+cd /usr/bin/spec/sjeng
+./sjeng_base.gcc43-64bit ref.txt

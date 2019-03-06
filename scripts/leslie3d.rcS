@@ -1,0 +1,4 @@
+#!/bin/sh
+
+cd /usr/bin/spec/leslie3d
+./leslie3d_base.gcc43-64bit < leslie3d.in
