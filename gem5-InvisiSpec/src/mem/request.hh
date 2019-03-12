@@ -370,6 +370,7 @@ class Request
     AtomicOpFunctor *atomicOpFunctor;
 
   public:
+    bool WB_on_retire;
 
     /**
      * Minimal constructor. No fields are initialized. (Note that

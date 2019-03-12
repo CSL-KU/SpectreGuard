@@ -392,6 +392,11 @@ TLB::translate(RequestPtr req, ThreadContext *tc, Translation *translation,
                     DPRINTF(TLB, "Miss was serviced.\n");
                 }
             }
+            
+            if( entry->WB_on_retire )
+                req->WB_on_retire = true;
+            else
+                req->WB_on_retire = false;
 
             DPRINTF(TLB, "Entry found with paddr %#x, "
                     "doing protection checks.\n", entry->paddr);

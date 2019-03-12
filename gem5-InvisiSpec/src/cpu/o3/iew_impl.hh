@@ -1458,24 +1458,35 @@ DefaultIEW<Impl>::writebackInsts()
         // E.g. Strictly ordered loads have not actually executed when they
         // are first sent to commit.  Instead commit must tell the LSQ
         // when it's ready to execute the strictly ordered load.
-        if (!inst->isSquashed() && inst->isExecuted() && inst->getFault() == NoFault) {
-            int dependents = instQueue.wakeDependents(inst);
+        if (!inst->isSquashed() && inst->isExecuted() && inst->getFault() == NoFault && !inst->WB_on_retire ) {
+            writebackDependents( inst );
+        }
+        
+        inst->WBOR_can_write = true;
+    }
+}
 
-            for (int i = 0; i < inst->numDestRegs(); i++) {
-                //mark as Ready
-                DPRINTF(IEW,"Setting Destination Register %i (%s)\n",
+template <class Impl>
+void
+DefaultIEW<Impl>::writebackDependents( DynInstPtr inst )
+{
+    ThreadID tid = inst->threadNumber;
+    int dependents = instQueue.wakeDependents(inst);
+
+    for (int i = 0; i < inst->numDestRegs(); i++) {
+        //mark as Ready
+        DPRINTF(IEW,"Setting Destination Register %i (%s)\n",
                         inst->renamedDestRegIdx(i)->index(),
                         inst->renamedDestRegIdx(i)->className());
-                scoreboard->setReg(inst->renamedDestRegIdx(i));
-            }
-
-            if (dependents) {
-                producerInst[tid]++;
-                consumerInst[tid]+= dependents;
-            }
-            writebackCount[tid]++;
-        }
+        scoreboard->setReg(inst->renamedDestRegIdx(i));
     }
+
+    if (dependents) {
+        producerInst[tid]++;
+        consumerInst[tid]+= dependents;
+    }
+
+    writebackCount[tid]++;
 }
 
 template<class Impl>

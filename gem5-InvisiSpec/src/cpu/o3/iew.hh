@@ -231,6 +231,8 @@ class DefaultIEW
 
     /** Check misprediction  */
     void checkMisprediction(DynInstPtr &inst);
+    
+    void writebackDependents( DynInstPtr inst );
 
   private:
     /** Sends commit proper information for a squash due to a branch

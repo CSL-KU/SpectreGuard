@@ -89,6 +89,8 @@ namespace X86ISA
         bool patBit;
         // Whether or not memory on this page can be executed.
         bool noExec;
+        // Whether loads can be speculated on.
+        bool WB_on_retire;
         // A sequence number to keep track of LRU.
         uint64_t lruSeq;
 
@@ -140,7 +142,8 @@ namespace X86ISA
     BitUnion64(PageTableEntry)
         Bitfield<63> nx;
         Bitfield<51, 12> base;
-        Bitfield<11, 9> avl;
+        Bitfield<11, 10> avl;
+        Bitfield<9> wbor;
         Bitfield<8> g;
         Bitfield<7> ps;
         Bitfield<6> d;

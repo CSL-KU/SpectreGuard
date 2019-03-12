@@ -298,6 +298,7 @@ Walker::WalkerState::stepWalk(PacketPtr &write)
         pte.a = 1;
         entry.writable = pte.w;
         entry.user = pte.u;
+        entry.WB_on_retire = pte.wbor;
         if (badNX || !pte.p) {
             doEndWalk = true;
             fault = pageFault(pte.p);
@@ -314,6 +315,7 @@ Walker::WalkerState::stepWalk(PacketPtr &write)
         pte.a = 1;
         entry.writable = entry.writable && pte.w;
         entry.user = entry.user && pte.u;
+        entry.WB_on_retire = entry.WB_on_retire || pte.wbor;
         if (badNX || !pte.p) {
             doEndWalk = true;
             fault = pageFault(pte.p);
@@ -328,6 +330,7 @@ Walker::WalkerState::stepWalk(PacketPtr &write)
         pte.a = 1;
         entry.writable = entry.writable && pte.w;
         entry.user = entry.user && pte.u;
+        entry.WB_on_retire = entry.WB_on_retire || pte.wbor;
         if (badNX || !pte.p) {
             doEndWalk = true;
             fault = pageFault(pte.p);
@@ -359,6 +362,7 @@ Walker::WalkerState::stepWalk(PacketPtr &write)
         pte.a = 1;
         entry.writable = entry.writable && pte.w;
         entry.user = entry.user && pte.u;
+        entry.WB_on_retire = entry.WB_on_retire || pte.wbor;
         if (badNX || !pte.p) {
             doEndWalk = true;
             fault = pageFault(pte.p);
@@ -390,6 +394,7 @@ Walker::WalkerState::stepWalk(PacketPtr &write)
         pte.a = 1;
         entry.writable = pte.w;
         entry.user = pte.u;
+        entry.WB_on_retire = pte.wbor;
         if (badNX || !pte.p) {
             doEndWalk = true;
             fault = pageFault(pte.p);
@@ -420,6 +425,7 @@ Walker::WalkerState::stepWalk(PacketPtr &write)
         pte.a = 1;
         entry.writable = entry.writable && pte.w;
         entry.user = entry.user && pte.u;
+        entry.WB_on_retire = entry.WB_on_retire || pte.wbor;
         if (badNX || !pte.p) {
             doEndWalk = true;
             fault = pageFault(pte.p);
@@ -440,6 +446,7 @@ Walker::WalkerState::stepWalk(PacketPtr &write)
         pte.a = 1;
         entry.writable = pte.w;
         entry.user = pte.u;
+        entry.WB_on_retire = pte.wbor;
         if (!pte.p) {
             doEndWalk = true;
             fault = pageFault(pte.p);
@@ -471,6 +478,7 @@ Walker::WalkerState::stepWalk(PacketPtr &write)
         pte.a = 1;
         entry.writable = pte.w;
         entry.user = pte.u;
+        entry.WB_on_retire = pte.wbor;
         if (!pte.p) {
             doEndWalk = true;
             fault = pageFault(pte.p);
@@ -488,6 +496,7 @@ Walker::WalkerState::stepWalk(PacketPtr &write)
         pte.a = 1;
         entry.writable = pte.w;
         entry.user = pte.u;
+        entry.WB_on_retire = pte.wbor;
         if (!pte.p) {
             doEndWalk = true;
             fault = pageFault(pte.p);
