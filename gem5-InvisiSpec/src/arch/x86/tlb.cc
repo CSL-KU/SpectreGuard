@@ -393,7 +393,7 @@ TLB::translate(RequestPtr req, ThreadContext *tc, Translation *translation,
                 }
             }
             
-            if( entry->WB_on_retire )
+            if( entry->WB_on_retire || this->SG_all )
                 req->WB_on_retire = true;
             else
                 req->WB_on_retire = false;

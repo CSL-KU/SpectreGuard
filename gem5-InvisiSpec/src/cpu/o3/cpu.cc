@@ -192,7 +192,11 @@ FullO3CPU<Impl>::FullO3CPU(DerivO3CPUParams *params)
     } else {
         _status = SwitchedOut;
     }
-
+    
+    dtb->SG_all = params->SG_all;
+    cprintf("Info: simulation uses SG_all %d; ",
+                dtb->SG_all);
+    
     if (params->checker) {
         BaseCPU *temp_checker = params->checker;
         checker = dynamic_cast<Checker<Impl> *>(temp_checker);

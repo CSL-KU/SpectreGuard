@@ -59,6 +59,8 @@ class BaseTLB : public SimObject
 
   public:
     enum Mode { Read, Write, Execute };
+    
+    bool SG_all = false;
 
     class Translation
     {

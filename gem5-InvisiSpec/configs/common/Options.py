@@ -302,6 +302,8 @@ def addCommonOptions(parser):
     parser.add_option("--allowSpecBuffHit", default=None, action="store",
             type="int",
             help="Allow to reuse spec buffer entries. Set unzero to reuse.")
+    parser.add_option("--SG_all", default=None, action="store", type="int",
+                        help="Set as non-zero to mark all memory as SpectreGuard.")
 
 def addSEOptions(parser):
     # Benchmark options

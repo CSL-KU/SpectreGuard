@@ -168,6 +168,8 @@ class DerivO3CPU(BaseCPU):
     needsTSO = Param.Bool(False, "Enable TSO Memory model")
     allowSpecBuffHit = Param.Bool(True, "Enable hit/reuse spec buffer entries")
 
+    SG_all = Param.Bool(False, "Set all memory as SpectreGuard")
+
     def addCheckerCpu(self):
         if buildEnv['TARGET_ISA'] in ['arm']:
             from ArmTLB import ArmTLB
