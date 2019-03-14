@@ -1737,6 +1737,13 @@ unsigned long mmap_region(struct file *file, unsigned long addr,
 
 	vma->vm_start = addr;
 	vma->vm_end = addr + len;
+    
+#ifdef CONFIG_SG_ALL_BUT_STACK
+    if ( !is_stack_mapping(vm_flags) )
+    {
+        vm_flags |= VM_WB_ON_RETIRE;
+    }
+#endif
 	vma->vm_flags = vm_flags;
 	vma->vm_page_prot = vm_get_page_prot(vm_flags);
 	vma->vm_pgoff = pgoff;
@@ -2989,6 +2996,13 @@ static int do_brk_flags(unsigned long addr, unsigned long len, unsigned long fla
 	vma->vm_start = addr;
 	vma->vm_end = addr + len;
 	vma->vm_pgoff = pgoff;
+    
+#ifdef CONFIG_SG_ALL_BUT_STACK
+    if ( !is_stack_mapping(flags) )
+    {
+        flags |= VM_WB_ON_RETIRE;
+    }
+#endif
 	vma->vm_flags = flags;
 	vma->vm_page_prot = vm_get_page_prot(flags);
 	vma_link(mm, vma, prev, rb_link, rb_parent);
@@ -3348,7 +3362,13 @@ static struct vm_area_struct *__install_special_mapping(
 
 	vma->vm_start = addr;
 	vma->vm_end = addr + len;
-
+    
+#ifdef CONFIG_SG_ALL_BUT_STACK
+    if ( !is_stack_mapping(vm_flags) )
+    {
+        vm_flags |= VM_WB_ON_RETIRE;
+    }
+#endif
 	vma->vm_flags = vm_flags | mm->def_flags | VM_DONTEXPAND | VM_SOFTDIRTY;
 	vma->vm_page_prot = vm_get_page_prot(vma->vm_flags);
 

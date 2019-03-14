@@ -1213,7 +1213,13 @@ unsigned long do_mmap(struct file *file,
 	region->vm_usage = 1;
 	region->vm_flags = vm_flags;
 	region->vm_pgoff = pgoff;
-
+   
+#ifdef CONFIG_SG_ALL_BUT_STACK 
+    if ( !is_stack_mapping(vm_flags) )
+    {
+        vm_flags |= VM_WB_ON_RETIRE;
+    }
+#endif
 	vma->vm_flags = vm_flags;
 	vma->vm_pgoff = pgoff;
 

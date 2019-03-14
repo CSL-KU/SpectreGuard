@@ -473,6 +473,15 @@ config WB_ON_RETIRE
 	  data is only safe while it is not being accessed, as in registers
 	  and unmarked stack areas are not secure.
 
+config SG_ALL_BUT_STACK
+	bool "Enable WB_ON_RETIRE flag for all memory except stack"
+	depends on WB_ON_RETIRE
+	default n
+	help
+	  Marking memory regions as WB_ON_RETIRE will disable speculative
+	  loads from that memory region(SpectreGuard). This option is for
+	  benchmark testing and sets that flag from all non-stack memory.
+
 config FRONTSWAP
 	bool "Enable frontswap to cache swap pages if tmem is present"
 	depends on SWAP
