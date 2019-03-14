@@ -169,6 +169,7 @@ class DerivO3CPU(BaseCPU):
     allowSpecBuffHit = Param.Bool(True, "Enable hit/reuse spec buffer entries")
 
     SG_all = Param.Bool(False, "Set all memory as SpectreGuard")
+    SG_opt = Param.Bool(False, "Enable SpectreGuard-opt")
 
     def addCheckerCpu(self):
         if buildEnv['TARGET_ISA'] in ['arm']:

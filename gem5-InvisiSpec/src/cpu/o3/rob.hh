@@ -286,6 +286,9 @@ class ROB
     /** Number of instructions in the ROB. */
     unsigned numEntries;
 
+    /** Use SpectreGuard early release optimization. */
+    bool SG_opt = false;
+
     /** Entries Per Thread */
     unsigned threadEntries[Impl::MaxThreads];
 

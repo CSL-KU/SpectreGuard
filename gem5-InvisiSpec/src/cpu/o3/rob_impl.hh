@@ -66,6 +66,10 @@ ROB<Impl>::ROB(O3CPU *_cpu, DerivO3CPUParams *params)
     //Convert string to lowercase
     std::transform(policy.begin(), policy.end(), policy.begin(),
                    (int(*)(int)) tolower);
+    
+    SG_opt = params->SG_opt;
+    cprintf("Info: simulation uses SG_opt %d\n",
+                SG_opt);
 
     //Figure out rob policy
     if (policy == "dynamic") {
@@ -443,6 +447,10 @@ ROB<Impl>::updateVisibleState()
                 }
                 if (prevBrsResolved){
                     inst->setPrevBrsResolved();
+                    if (!inst->isSquashed() && inst->isExecuted() && inst->getFault() == NoFault && inst->WB_on_retire && inst->WBOR_can_write && SG_opt) {
+                        cpu->iew.writebackDependents( inst );
+                        inst->WB_on_retire = false;
+                    }
                 }
                 if (prevInstsCommitted) {
                     inst->setPrevInstsCommitted();

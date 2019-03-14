@@ -194,7 +194,7 @@ FullO3CPU<Impl>::FullO3CPU(DerivO3CPUParams *params)
     }
     
     dtb->SG_all = params->SG_all;
-    cprintf("Info: simulation uses SG_all %d; ",
+    cprintf("Info: simulation uses SG_all %d\n",
                 dtb->SG_all);
     
     if (params->checker) {

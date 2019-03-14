@@ -94,16 +94,16 @@ def config_scheme(cpu_cls, cpu_list, options):
             fatal("Need to provide needsTSO and scheme "
                 "to run simulation with DerivO3CPU")
 
-        if options.SG_all==None:
-            fatal("Need to provide SG_all "
+        if options.SG_all==None or options.SG_opt==None:
+            fatal("Need to provide SG_all and SG_opt "
                 "to run simulation with DerivO3CPU")
 
         print "**********"
         print "info: Configure for DerivO3CPU. needsTSO=%d; scheme=%s"\
             % (options.needsTSO, options.scheme)
         print "**********"
-        print "info: Configure for DerivO3CPU. SG_all=%d"\
-            % (options.SG_all)
+        print "info: Configure for DerivO3CPU. SG_all=%d; SG_opt=%d"\
+            % (options.SG_all, options.SG_opt)
         print "**********"
         for cpu in cpu_list:
             if options.needsTSO:
@@ -115,6 +115,11 @@ def config_scheme(cpu_cls, cpu_list, options):
                 cpu.SG_all = True
             else:
                 cpu.SG_all = False
+
+            if options.SG_opt:
+                cpu.SG_opt = True
+            else:
+                cpu.SG_opt = False
 
             if options.allowSpecBuffHit:
                 cpu.allowSpecBuffHit = True

@@ -599,9 +599,11 @@ class FullO3CPU : public BaseO3CPU
     /** The dispatch stage. */
     typename CPUPolicy::Rename rename;
 
+  public:
     /** The issue/execute/writeback stages. */
     typename CPUPolicy::IEW iew;
 
+  protected:
     /** The commit stage. */
     typename CPUPolicy::Commit commit;
 
