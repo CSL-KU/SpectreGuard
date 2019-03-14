@@ -15,6 +15,12 @@
 #define MAP_HUGETLB	0x40000		/* create a huge page mapping */
 #define MAP_SYNC	0x80000		/* perform synchronous page faults for the mapping */
 
+/* 0x100000 - is defined in asm-generic/mman-common.h */
+
+#ifdef CONFIG_WB_ON_RETIRE
+#  define MAP_WB_ON_RETIRE    0x200000
+#endif
+
 /* Bits [26:31] are reserved, see mman-common.h for MAP_HUGETLB usage */
 
 #define MCL_CURRENT	1		/* lock all current mappings */

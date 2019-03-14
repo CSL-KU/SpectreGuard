@@ -129,6 +129,12 @@ IF_HAVE_PG_IDLE(PG_idle,		"idle"		)
 #define IF_HAVE_VM_SOFTDIRTY(flag,name)
 #endif
 
+#ifdef CONFIG_WB_ON_RETIRE
+#define IF_HAVE_VM_WB_ON_RETIRE(flag,name) {flag, name },
+#else
+#define IF_HAVE_VM_WB_ON_RETIRE(flag,name)
+#endif
+
 #define __def_vmaflag_names						\
 	{VM_READ,			"read"		},		\
 	{VM_WRITE,			"write"		},		\
@@ -157,6 +163,7 @@ IF_HAVE_PG_IDLE(PG_idle,		"idle"		)
 	{VM_WIPEONFORK,			"wipeonfork"	},		\
 	{VM_DONTDUMP,			"dontdump"	},		\
 IF_HAVE_VM_SOFTDIRTY(VM_SOFTDIRTY,	"softdirty"	)		\
+IF_HAVE_VM_WB_ON_RETIRE(VM_WB_ON_RETIRE,	"wb_on_retire"	)		\
 	{VM_MIXEDMAP,			"mixedmap"	},		\
 	{VM_HUGEPAGE,			"hugepage"	},		\
 	{VM_NOHUGEPAGE,			"nohugepage"	},		\

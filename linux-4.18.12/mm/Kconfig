@@ -462,6 +462,17 @@ config CLEANCACHE
 
 	  If unsure, say Y to enable cleancache
 
+config WB_ON_RETIRE
+	bool "Enable additional mmap flag restricting speculative loads"
+	depends on !MEM_SOFT_DIRTY
+	default y
+	help
+	  Marking memory regions as WB_ON_RETIRE will disable speculative
+	  loads from that memory region. This prevents the data from leaking
+	  through Spectre style attacks. It should be noted though that the
+	  data is only safe while it is not being accessed, as in registers
+	  and unmarked stack areas are not secure.
+
 config FRONTSWAP
 	bool "Enable frontswap to cache swap pages if tmem is present"
 	depends on SWAP

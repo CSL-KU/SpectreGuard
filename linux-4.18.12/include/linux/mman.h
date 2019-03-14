@@ -7,6 +7,7 @@
 
 #include <linux/atomic.h>
 #include <uapi/linux/mman.h>
+#include <asm/pgtable_types.h>
 
 /*
  * Arrange for legacy / undefined architecture specific flags to be
@@ -82,7 +83,15 @@ static inline void vm_unacct_memory(long pages)
 #endif
 
 #ifndef arch_vm_get_page_prot
-#define arch_vm_get_page_prot(vm_flags) __pgprot(0)
+#  ifdef CONFIG_WB_ON_RETIRE
+static inline pgprot_t arch_vm_get_page_prot(unsigned long vm_flags)
+{
+    return (vm_flags & VM_WB_ON_RETIRE) ? __pgprot(_PAGE_WB_ON_RETIRE) : __pgprot(0);
+}
+#    define arch_vm_get_page_prot(vm_flags) arch_vm_get_page_prot(vm_flags)
+#  else
+#    define arch_vm_get_page_prot(vm_flags) __pgprot(0)
+#  endif
 #endif
 
 #ifndef arch_validate_prot
@@ -131,6 +140,9 @@ calc_vm_flag_bits(unsigned long flags)
 	return _calc_vm_trans(flags, MAP_GROWSDOWN,  VM_GROWSDOWN ) |
 	       _calc_vm_trans(flags, MAP_DENYWRITE,  VM_DENYWRITE ) |
 	       _calc_vm_trans(flags, MAP_LOCKED,     VM_LOCKED    ) |
+#ifdef CONFIG_WB_ON_RETIRE
+           _calc_vm_trans(flags, MAP_WB_ON_RETIRE, VM_WB_ON_RETIRE    ) |
+#endif
 	       _calc_vm_trans(flags, MAP_SYNC,	     VM_SYNC      );
 }
 
