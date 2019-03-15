@@ -135,3 +135,16 @@ This will begin by creating 2 checkpoints past the kernel booting,
 
 This may take sometime, so you may want to run as:
     nohup ./run_synthetic_bench.pl </dev/null >synthetic.log 2>&1 &
+
+####################
+Generate the graphs:
+####################
+
+Finally, to extract the data and create the graphs gnuplot is required.
+
+synthetic benchmark:
+    cd BASE_DIR/
+    ./parse-synthetic.pl
+    
+    the resulting table and graph will be in
+        BASE_DIR/artifacts/graphs/synthetic/
