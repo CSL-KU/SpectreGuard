@@ -8,6 +8,8 @@ require 'Monitor.pm';
 
 my @tasks = ();
 
+$| = 1;
+
 ## setup the work to create the shared checkpoints for the synthetic benchmark
 foreach my $kernel ( 'vmlinux', 'vmlinux_SG_all_no_stack' )
 {

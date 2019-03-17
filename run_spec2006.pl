@@ -6,6 +6,7 @@ use strict;
 use lib '.';
 require 'Monitor.pm';
 
+$| = 1;
 my @tasks = ();
 
 ## setup the work to run the synthetic benchmarks
