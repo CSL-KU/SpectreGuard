@@ -20,7 +20,7 @@ my %configs_display_name = (
 my %all_benches;
 
 foreach my $config (@configs) {
-    my $bench_path = "artifacts/results/${config}/bench.out";
+    my $bench_path = "artifacts/results/synthetic/${config}/bench.out";
     my $bench_num = 0;
     
     open(my $stats_handle, "<", $bench_path) or die "Can't open < $bench_path: $!";
