@@ -38,7 +38,7 @@ foreach my $bench (
 
 Monitor::do_work({
     tasks => \@tasks,
-    max_tasks => 30,
+    max_tasks => 0,
 });
 
 sub run_spec2006

@@ -25,7 +25,7 @@ foreach my $kernel ( 'vmlinux', 'vmlinux_SG_all_no_stack' )
 
 Monitor::do_work({
     tasks => \@tasks,
-    max_tasks => 2,
+    max_tasks => 0,
 });
 
 ## setup the work to run the synthetic benchmarks
@@ -52,7 +52,7 @@ foreach my $bench (
 
 Monitor::do_work({
     tasks => \@tasks,
-    max_tasks => 9,
+    max_tasks => 0,
 });
 
 sub run_synthetic_bench
