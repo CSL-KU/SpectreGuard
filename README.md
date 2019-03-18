@@ -55,26 +55,27 @@ To mount the system simply:
 
 tempdir will now contain the system files.
 The OS utilizes busybox.
-On boot, the init script creates a checkpoint and then loads and runs a script.
-    there is also an init script in /etc for booting to a terminal.
+On boot, the init script creates a checkpoint and then loads and runs a script
+    that is passed in on the gem5 command line. There is also an init script in
+    /etc for booting to a terminal.
 
 #################################
 Building the synthetic benchmark:
 #################################
 
-To build and install the synthetic benchmark:
+To build and install the synthetic benchmark(assuming the disk image is mounted):
     cd BASE_DIR/synthetic_benchmark/
     make
-    cp specBench_base ../x86-system/disks/tempdir/usr/bin/microbench/specBench_base
-    cp specBench_mask ../x86-system/disks/tempdir/usr/bin/microbench/specBench_mask
-    cp specBench_wbor ../x86-system/disks/tempdir/usr/bin/microbench/specBench_wbor
+    sudo cp specBench_base ../x86-system/disks/tempdir/usr/bin/microbench/specBench_base
+    sudo cp specBench_mask ../x86-system/disks/tempdir/usr/bin/microbench/specBench_mask
+    sudo cp specBench_wbor ../x86-system/disks/tempdir/usr/bin/microbench/specBench_wbor
 
 ##################
 Building spec2006:
 ##################
 
 We cannot provide spec2006 as it is licensed. To add this benchmark, you must
-    first build it statically, and then copy the desired tests into the
+    first build spec2006 statically, and then copy the desired tests into the
     following tree structure:
     
     BASE_DIR/x86-system/disks/tempdir/usr/bin/spec/
@@ -125,16 +126,42 @@ You are now ready to run benchmarks
 Running the Benchmarks:
 #######################
 
+General:
+    Both benchmarks may take from hours to days to run depending on the
+        hardware used. For this reason, both benchmarks utilize a dynamic
+        system for adjusting the number of active processes. This way, 24 hours
+        into a 48 hour run, a user can throttle the benchmark down from say 16
+        processes to only 4 while another process needs the resources of the
+        same machine. To change the number of max processes:
+        
+        cd BASE_DIR/
+        echo ### > max_tasks.txt
+        
+        Where ### is the maximum number of processes to run at one time. If
+        lowering the number, you will need to wait for processes to finish for
+        the load to lessen. When raising the number, you will need to wait for
+        at least one process to finish before the load will change. Be sure to
+        check the log file to ensure that the change happened correctly:
+        
+        cat synthetic.log
+        .....
+        STATUS: updating max_tasks from |4| to |16|
+        .....
+        
+    Because both benchmarks may take so long, you may want to run them like so:
+        
+        nohup ./run_synthetic_bench.pl </dev/null >synthetic.log 2>&1 &
+    
+        This way, broken ssh connections will not stop the benchmark from
+        running. The log files may then be checked to monitor progress.
+
 To run the synthetic benchmark:
     cd BASE_DIR/
     ./run_synthetic_bench.pl
 
-This will begin by creating 2 checkpoints past the kernel booting,
-    and then using those checkpoints to run the benchmark under the various
-    configurations.
-
-This may take sometime, so you may want to run as:
-    nohup ./run_synthetic_bench.pl </dev/null >synthetic.log 2>&1 &
+To run the spec2006 benchmark:
+    cd BASE_DIR/
+    ./run_spec2006.pl
 
 ####################
 Generate the graphs:
@@ -146,5 +173,12 @@ synthetic benchmark:
     cd BASE_DIR/
     ./parse-synthetic.pl
     
-    the resulting table and graph will be in
-        BASE_DIR/artifacts/graphs/synthetic/
+spec2006 benchmark:
+    cd BASE_DIR/
+    ./parse-spec2006.pl
+    
+the resulting table and graph will be in the:
+    
+    BASE_DIR/artifacts/graphs/####/
+    
+    directories. Each will contain a data file and a .pdf containing the graph.
