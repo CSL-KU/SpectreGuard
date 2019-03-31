@@ -2996,7 +2996,11 @@ static int do_brk_flags(unsigned long addr, unsigned long len, unsigned long fla
 	vma->vm_start = addr;
 	vma->vm_end = addr + len;
 	vma->vm_pgoff = pgoff;
-    
+	
+#ifdef CONFIG_SG_HEAP
+        flags |= VM_WB_ON_RETIRE;
+#endif
+
 #ifdef CONFIG_SG_ALL_BUT_STACK
     if ( !is_stack_mapping(flags) )
     {

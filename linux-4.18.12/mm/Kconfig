@@ -482,6 +482,24 @@ config SG_ALL_BUT_STACK
 	  loads from that memory region(SpectreGuard). This option is for
 	  benchmark testing and sets that flag from all non-stack memory.
 
+config SG_HEAP
+	bool "Enable WB_ON_RETIRE flag for all heap memory"
+	depends on WB_ON_RETIRE
+	default n
+	help
+	  Marking memory regions as WB_ON_RETIRE will disable speculative
+	  loads from that memory region(SpectreGuard). This option is for
+	  benchmark testing and sets that flag from all heap memory.
+
+config SG_LOADABLE
+	bool "Enable WB_ON_RETIRE flag for all data memory"
+	depends on WB_ON_RETIRE
+	default n
+	help
+	  Marking memory regions as WB_ON_RETIRE will disable speculative
+	  loads from that memory region(SpectreGuard). This option is for
+	  benchmark testing and sets that flag from all data memory.
+
 config FRONTSWAP
 	bool "Enable frontswap to cache swap pages if tmem is present"
 	depends on SWAP

@@ -944,6 +944,9 @@ static int load_elf_binary(struct linux_binprm *bprm)
 			elf_prot |= PROT_EXEC;
 
 		elf_flags = MAP_PRIVATE | MAP_DENYWRITE | MAP_EXECUTABLE;
+#ifdef CONFIG_SG_LOADABLE
+		elf_flags |= MAP_WB_ON_RETIRE;
+#endif
 
 		vaddr = elf_ppnt->p_vaddr;
 		/*
