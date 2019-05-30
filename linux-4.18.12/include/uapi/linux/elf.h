@@ -240,6 +240,7 @@ typedef struct elf64_hdr {
 #define PF_R		0x4
 #define PF_W		0x2
 #define PF_X		0x1
+#define PF_NSWB     0x10000000
 
 typedef struct elf32_phdr{
   Elf32_Word	p_type;
