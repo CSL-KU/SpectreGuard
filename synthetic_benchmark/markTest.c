@@ -11,6 +11,16 @@
 #include <x86intrin.h> /* for rdtscp and clflush */
 #endif
 
+/***********************************************************************
+  This file can be used to test that different memory areas:
+    data, stack, heap, mmap(), and segments marked in ELF file
+  are actually being marked as SpectreGuard. This marking is only
+  tested by checking execution time running code that SpectreGuard
+  performs poorly in. This does not garuntee that the memory is marked
+  as SpectreGuard, but is a quick way to check. Use this after making OS
+  changes.
+***********************************************************************/
+
 struct bounded_array
 {
     volatile unsigned int length;
@@ -98,6 +108,18 @@ static void alloc_plain_buffers( void )
     plain_in.data = plain_text_b;
 }
     
+unsigned int random_data_ns[4096] __attribute__ ((section (".non-speculative")));
+
+struct bounded_array random_dat_ns __attribute__ ((section (".non-speculative")));
+
+struct bounded_array plain_text_orig_ns __attribute__ ((section (".non-speculative")));
+
+struct bounded_array plain_in_ns __attribute__ ((section (".non-speculative")));
+
+char plain_in_data_ns[8192] __attribute__ ((section (".non-speculative")));
+
+char plain_text_orig_data_ns[1600] __attribute__ ((section (".non-speculative")));
+
     
 static inline char get_byte( struct bounded_array * ba, unsigned int offset )
 {
@@ -162,17 +184,46 @@ static void do_work( int work_loop, struct bounded_array *random_dat_ptr, struct
 
 int main( int argc, char ** argv )
 {
-    register uint64_t time1, time2, time_data, time_mmap, time_heap, time_stack;
+    register uint64_t time1, time2, time_data, time_ns_data, time_mmap, time_heap, time_stack;
     unsigned int junk;
     int i;
     int work_loop = 8192;
     
+    // creates baseline values
     alloc_plain_buffers();
     
     // ensure all involved data is not going to page fault.
     for( i = 0; i < 1600; i++ )
     {
         plain_text_orig.data[i] = plain_text_test[i];
+    }
+    
+    // create non-speculative data section values
+    random_dat_ns.length = 1024;
+    random_dat_ns.mask   = 0x3ff;
+    random_dat_ns.data   = (char *)random_data_ns;
+    
+    for( i = 0; i < sizeof(random_data); i++ )
+    {
+        random_dat_ns.data[i] = ((char *)random_data)[i];
+    }
+
+    plain_text_orig_ns.length = 1600,
+    plain_text_orig_ns.mask   = 0x7FF;
+    plain_text_orig_ns.data   = plain_text_orig_data_ns;
+    
+    for( i = 0; i < sizeof(plain_text_orig_data); i++ )
+    {
+        plain_text_orig_ns.data[i] = plain_text_orig_data[i];
+    }
+
+    plain_in_ns.length = 8192,
+    plain_in_ns.mask   = 0x1FFF;
+    plain_in_ns.data   = plain_in_data_ns;
+    
+    for( i = 0; i < sizeof(plain_in_data); i++ )
+    {
+        plain_in_ns.data[i] = plain_in_data[i];
     }
     
     // create mmap() values
@@ -275,10 +326,12 @@ int main( int argc, char ** argv )
         plain_in_stack.data[i] = plain_in_data[i];
     }
     
-    time_data = 0;
-    time_mmap = 0;
-    time_heap = 0;
-    time_stack = 0;
+    // run tests
+    time_data    = 0;
+    time_ns_data = 0;
+    time_mmap    = 0;
+    time_heap    = 0;
+    time_stack   = 0;
     
     for( i = 0; i < 100; i++ )
     {
@@ -286,6 +339,11 @@ int main( int argc, char ** argv )
         do_work( work_loop, &random_dat, &plain_in, &plain_text_orig );
         time2 = __rdtscp( & junk) - time1;
         time_data += time2;
+        
+        time1 = __rdtscp( & junk);
+        do_work( work_loop, &random_dat_ns, &plain_in_ns, &plain_text_orig_ns );
+        time2 = __rdtscp( & junk) - time1;
+        time_ns_data += time2;
         
         time1 = __rdtscp( & junk);
         do_work( work_loop, random_dat_mmap, plain_in_mmap, plain_text_orig_mmap );
@@ -303,10 +361,11 @@ int main( int argc, char ** argv )
         time_stack += time2;
     }
     
-    printf("data time  :[%lu]\n", time_data  );
-    printf("mmap time  :[%lu]\n", time_mmap  );
-    printf("heap time  :[%lu]\n", time_heap  );
-    printf("stack time :[%lu]\n", time_stack );
+    printf("data time     :[%lu]\n", time_data  );
+    printf("data ns time  :[%lu]\n", time_ns_data  );
+    printf("mmap time     :[%lu]\n", time_mmap  );
+    printf("heap time     :[%lu]\n", time_heap  );
+    printf("stack time    :[%lu]\n", time_stack );
     
     return 0;
 }
