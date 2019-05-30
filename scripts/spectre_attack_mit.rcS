@@ -1,0 +1,6 @@
+#!/bin/sh
+
+echo starting test spectre_attack_mit 2>&1 > /tmp/log
+/usr/bin/spectre_attack_mit 2>&1 >> /tmp/log
+echo all tests complete 2>&1 >> /tmp/log
+m5 writefile /tmp/log bench.out
