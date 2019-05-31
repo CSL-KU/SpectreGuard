@@ -198,4 +198,4 @@ the resulting table and graph will be in the:
     BASE_DIR/artifacts/graphs/####/
 ```
     
-    directories. Each will contain a data file and a .pdf containing the graph.
+directories. Each will contain a data file and a .pdf containing the graph.
