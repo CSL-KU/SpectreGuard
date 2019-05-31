@@ -129,50 +129,48 @@ We must now build a special kernel that marks all heap pages as non-speculative.
 
 You are now ready to run benchmarks
 
-# Running the Benchmarks:
-
-General:
-    Both benchmarks may take from hours to days to run depending on the
-        hardware used. For this reason, both benchmarks utilize a dynamic
-        system for adjusting the number of active processes. This way, 24 hours
-        into a 48 hour run, a user can throttle the benchmark down from say 16
-        processes to only 4 while another process needs the resources of the
-        same machine. To change the number of max processes:
+# Running the Benchmarks General:
+Both benchmarks may take from hours to days to run depending on the
+hardware used. For this reason, both benchmarks utilize a dynamic
+system for adjusting the number of active processes. This way, 24 hours
+into a 48 hour run, a user can throttle the benchmark down from say 16
+processes to only 4 while another process needs the resources of the
+same machine. To change the number of max processes:
    
-```     
-        cd BASE_DIR/
-        echo ### > max_tasks.txt
+```
+    cd BASE_DIR/
+    echo ### > max_tasks.txt
 ```
         
-        Where ### is the maximum number of processes to run at one time. If
-        lowering the number, you will need to wait for processes to finish for
-        the load to lessen. When raising the number, you will need to wait for
-        at least one process to finish before the load will change. Be sure to
-        check the log file to ensure that the change happened correctly:
+Where ### is the maximum number of processes to run at one time. If
+lowering the number, you will need to wait for processes to finish for
+the load to lessen. When raising the number, you will need to wait for
+at least one process to finish before the load will change. Be sure to
+check the log file to ensure that the change happened correctly:
    
 ```     
-        cat synthetic.log
-        .....
-        STATUS: updating max_tasks from |4| to |16|
-        .....
+    cat synthetic.log
+    .....
+    STATUS: updating max_tasks from |4| to |16|
+    .....
 ```
         
-    Because both benchmarks may take so long, you may want to run them like so:
+Because both benchmarks may take so long, you may want to run them like so:
    
 ```     
-        nohup ./run_synthetic_bench.pl </dev/null >synthetic.log 2>&1 &
+    nohup ./run_synthetic_bench.pl </dev/null >synthetic.log 2>&1 &
 ```
     
-        This way, broken ssh connections will not stop the benchmark from
-        running. The log files may then be checked to monitor progress.
+This way, broken ssh connections will not stop the benchmark from
+running. The log files may then be checked to monitor progress.
 
-To run the synthetic benchmark:
+# To run the synthetic benchmark:
 ```
     cd BASE_DIR/
     ./run_synthetic_bench.pl
 ```
 
-To run the spec2006 benchmark:
+# To run the spec2006 benchmark:
 ```
     cd BASE_DIR/
     ./run_spec2006.pl
