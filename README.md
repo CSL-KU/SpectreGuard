@@ -118,13 +118,13 @@ You may need to answer yes or no when performing make oldconfig, but the
     cp vmlinux ../x86-system/binaries/vmlinux
 ```
 
-We must now make the kernel again.
+We must now build a special kernel that marks all heap pages as non-speculative.
 ```
     make clean
-    cp gem5_SG_all_no_stack_config .config
+    cp gem5_SG_heap .config
     make oldconfig
     make -j16 vmlinux
-    cp vmlinux ../x86-system/binaries/vmlinux_SG_all_no_stack
+    cp vmlinux ../x86-system/binaries/vmlinux_SG_heap
 ```
 
 You are now ready to run benchmarks
