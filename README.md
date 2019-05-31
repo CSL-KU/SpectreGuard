@@ -28,25 +28,31 @@ The first step is to build the gem5 simulator. Detailed build instructions can
 be found at the gem5 website:
     http://learning.gem5.org/book/part1/building.html
 
-Once the proper tools have been installed, run this command:
+Once the proper tools have been installed, run these commands:
+```
     cd BASE_DIR/gem5/
     scons -j16 build/X86_MESI_Two_Level/gem5.fast
+```
 
 Modify the -j16 for the number of threads your system can handle.
 
 # Unpacking the system image:
 
 gem5 requires a system image to run on. One has been provided. To unpack it:
+```
     cd BASE_DIR/x86-system-parts/
     ./restore_system.pl
+```
 
 This system is ready to run the synthetic benchmark right out of the box,
     but you will need to mount it if you would like to build it yourself,
     or you would like to add the spec2006 benchmark files.
 
 To mount the system simply:
+```
     cd BASE_DIR/x86-system/disks/
     sudo mount -o loop,offset=$((2048*512)) amd64-linux.img tempdir
+```
 
 tempdir will now contain the system files.
 The OS utilizes busybox.
@@ -57,6 +63,7 @@ On boot, the init script creates a checkpoint and then loads and runs a script
 # Building the synthetic benchmark:
 
 To build and install the synthetic benchmark(assuming the disk image is mounted):
+```
     cd BASE_DIR/synthetic_benchmark/
     make
     sudo cp specBench_base      ../x86-system/disks/tempdir/usr/bin/microbench/specBench_base
@@ -64,13 +71,15 @@ To build and install the synthetic benchmark(assuming the disk image is mounted)
     sudo cp spectre_attack      ../x86-system/disks/tempdir/usr/bin/spectre_attack
     sudo cp spectre_attack_mit  ../x86-system/disks/tempdir/usr/bin/spectre_attack_mit
     sudo cp markTest            ../x86-system/disks/tempdir/usr/bin/markTest
+```
 
 # Building spec2006:
 
 We cannot provide spec2006 as it is licensed. To add this benchmark, you must
     first build spec2006 statically, and then copy the desired tests into the
     following tree structure:
-    
+
+```    
     BASE_DIR/x86-system/disks/tempdir/usr/bin/spec/
         astar/
             astar_base.gcc43-64bit
@@ -84,6 +93,7 @@ We cannot provide spec2006 as it is licensed. To add this benchmark, you must
         bzip2/
             ......
         .......
+```
 
 A complete list of benchmarks and files required can be found in the script
     for running the benchmarks, along as in the scripts folder which contains
@@ -94,22 +104,28 @@ A complete list of benchmarks and files required can be found in the script
 We need to build 2 versions of the kernel to run all of the benchmarks.
 
 First:
+```
     cd BASE_DIR/linux-4.18.12/
     cp gem5_config .config
     make oldconfig
     make -j16 vmlinux
+```
 
 You may need to answer yes or no when performing make oldconfig, but the
     options should not be relevant.
-    
+   
+``` 
     cp vmlinux ../x86-system/binaries/vmlinux
+```
 
 We must now make the kernel again.
+```
     make clean
     cp gem5_SG_all_no_stack_config .config
     make oldconfig
     make -j16 vmlinux
     cp vmlinux ../x86-system/binaries/vmlinux_SG_all_no_stack
+```
 
 You are now ready to run benchmarks
 
@@ -122,50 +138,66 @@ General:
         into a 48 hour run, a user can throttle the benchmark down from say 16
         processes to only 4 while another process needs the resources of the
         same machine. To change the number of max processes:
-        
+   
+```     
         cd BASE_DIR/
         echo ### > max_tasks.txt
+```
         
         Where ### is the maximum number of processes to run at one time. If
         lowering the number, you will need to wait for processes to finish for
         the load to lessen. When raising the number, you will need to wait for
         at least one process to finish before the load will change. Be sure to
         check the log file to ensure that the change happened correctly:
-        
+   
+```     
         cat synthetic.log
         .....
         STATUS: updating max_tasks from |4| to |16|
         .....
+```
         
     Because both benchmarks may take so long, you may want to run them like so:
-        
+   
+```     
         nohup ./run_synthetic_bench.pl </dev/null >synthetic.log 2>&1 &
+```
     
         This way, broken ssh connections will not stop the benchmark from
         running. The log files may then be checked to monitor progress.
 
 To run the synthetic benchmark:
+```
     cd BASE_DIR/
     ./run_synthetic_bench.pl
+```
 
 To run the spec2006 benchmark:
+```
     cd BASE_DIR/
     ./run_spec2006.pl
+```
 
 # Generate the graphs:
 
 Finally, to extract the data and create the graphs gnuplot is required.
 
 synthetic benchmark:
+```
     cd BASE_DIR/
     ./parse-synthetic.pl
+```
     
 spec2006 benchmark:
+```
     cd BASE_DIR/
     ./parse-spec2006.pl
+```
     
 the resulting table and graph will be in the:
-    
+   
+``` 
     BASE_DIR/artifacts/graphs/####/
+```
     
     directories. Each will contain a data file and a .pdf containing the graph.
