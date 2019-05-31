@@ -4,17 +4,13 @@ use strict;
 use warnings;
 
 my @bench_names = ('25S/75C', '50S/50C', '75S/25C', '90S/10C');
-my @configs = ('Native', 'InvisiSpec', 'Fence', 'SG-Opt', 'SG-Opt-NoS', 'SG-Opt-All', 'SG-Base', 'SG-Base-NoS', 'SG-Base-All');
+my @configs = ('Native', 'InvisiSpec', 'Fence', 'SG-Key', 'SG-All' );
 my %configs_display_name = (
     Native        => 'Native',
     InvisiSpec    => 'InvisiSpec',
     Fence         => 'Fence',
-    'SG-Opt'      => 'SG-Opt',
-    'SG-Opt-NoS'  => 'SG-Opt-NoS',
-    'SG-Opt-All'  => 'SG-Opt-All',
-    'SG-Base'     => 'SG-Base',
-    'SG-Base-NoS' => 'SG-Base-NoS',
-    'SG-Base-All' => 'SG-Base-All',
+    'SG-Key'      => 'SG(Key)',
+    'SG-All'      => 'SG(All)',
 );
 
 my %all_benches;

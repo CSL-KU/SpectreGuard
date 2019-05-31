@@ -66,9 +66,11 @@ Building the synthetic benchmark:
 To build and install the synthetic benchmark(assuming the disk image is mounted):
     cd BASE_DIR/synthetic_benchmark/
     make
-    sudo cp specBench_base ../x86-system/disks/tempdir/usr/bin/microbench/specBench_base
-    sudo cp specBench_mask ../x86-system/disks/tempdir/usr/bin/microbench/specBench_mask
-    sudo cp specBench_wbor ../x86-system/disks/tempdir/usr/bin/microbench/specBench_wbor
+    sudo cp specBench_base      ../x86-system/disks/tempdir/usr/bin/microbench/specBench_base
+    sudo cp specBench_wbor      ../x86-system/disks/tempdir/usr/bin/microbench/specBench_wbor
+    sudo cp spectre_attack      ../x86-system/disks/tempdir/usr/bin/spectre_attack
+    sudo cp spectre_attack_mit  ../x86-system/disks/tempdir/usr/bin/spectre_attack_mit
+    sudo cp markTest            ../x86-system/disks/tempdir/usr/bin/markTest
 
 ##################
 Building spec2006:

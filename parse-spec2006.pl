@@ -4,18 +4,16 @@ use strict;
 use warnings;
 
 my @bench_names = ('bzip2', 'mcf', 'gobmk', 'hmmer', 'sjeng', 'libquantum', 'h264ref', 'omnetpp', 'astar', 'bwaves', 'gamess', 'milc', 'zeusmp', 'gromacs', 'cactusADM', 'leslie3d', 'namd', 'soplex', 'calculix', 'GemsFDTD', 'tonto', 'lbm', 'sphinx3');
-my @configs = ('Native', 'InvisiSpec', 'Fence', 'SG-Opt-NoS', 'SG-Opt-All', 'SG-Base-NoS', 'SG-Base-All');
+my @configs = ('Native', 'SG-HEAP', 'SG-Opt-All', 'InvisiSpec', 'Fence');
 my %configs_display_name = (
     Native        => 'Native',
     InvisiSpec    => 'InvisiSpec',
     Fence         => 'Fence',
-    'SG-Opt'      => 'SG-Opt',
-    'SG-Opt-NoS'  => 'SG-Opt-NoS',
-    'SG-Opt-All'  => 'SG-Opt-All',
-    'SG-Base'     => 'SG-Base',
-    'SG-Base-NoS' => 'SG-Base-NoS',
-    'SG-Base-All' => 'SG-Base-All',
+    'SG-HEAP'     => 'SG(Heap)',
+    'SG-Opt-All'  => 'SG(All)',
 );
+
+my $normalize_run = 'Native';
 
 my %all_benches;
 
@@ -62,7 +60,7 @@ foreach my $bench (@bench_names)
     printf $spec_perf_handle_dat "$bench\t";
     foreach my $config ( @configs )
     {
-        my $norm_time = $all_benches{$config}{$bench}{sim_seconds} / $all_benches{Native}{$bench}{sim_seconds};
+        my $norm_time = $all_benches{$config}{$bench}{sim_seconds} / $all_benches{$normalize_run}{$bench}{sim_seconds};
         printf $spec_perf_handle_dat "%.3f\t", $norm_time;
         
         $all_benches{$config}{norm_time} = $norm_time + $all_benches{$config}{norm_time};

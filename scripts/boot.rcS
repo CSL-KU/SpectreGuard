@@ -1,5 +1,4 @@
 #!/bin/sh
 
-cd root
-m5 checkpoint
-m5 exit
+echo System started and executed dud script 2>&1 > /tmp/log
+m5 writefile /tmp/log bench.out
