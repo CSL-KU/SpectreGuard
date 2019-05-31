@@ -4,3 +4,7 @@ specBench_base
 specBench_mask
 specBench_wbor
 stack_test
+markTest
+spectre_attack
+spectre_attack_mit
+*.lds
