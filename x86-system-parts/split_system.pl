@@ -20,7 +20,7 @@ $command = "rm `ls | grep -v system`";
 print "$command\n";
 system $command;
 
-my $num_bytes = 64 * 1024 * 1024;
+my $num_bytes = 32 * 1024 * 1024;
 $command = "split -b $num_bytes ../x86-system.tar.gz";
 print "$command\n";
 system $command;
