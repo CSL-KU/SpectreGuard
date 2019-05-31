@@ -11,7 +11,7 @@ my @tasks = ();
 $| = 1;
 
 ## setup the work to create the shared checkpoints for the synthetic benchmark
-foreach my $kernel ( 'vmlinux', 'vmlinux_heap' )
+foreach my $kernel ( 'vmlinux', 'vmlinux_SG_heap' )
 {
     push @tasks, {
         msg  => "Shared checkpoint for kernel $kernel",
@@ -41,7 +41,7 @@ foreach my $bench (
     { name => 'Attack_Test_Mit', scheme => 'UnsafeBaseline',           SG_all => '0', SG_opt => '1', script => 'spectre_attack_mit',kernel => 'vmlinux' },
     { name => 'Mark_Test',       scheme => 'UnsafeBaseline',           SG_all => '0', SG_opt => '0', script => 'markTest',          kernel => 'vmlinux' },
     { name => 'Mark_Test_All',   scheme => 'UnsafeBaseline',           SG_all => '1', SG_opt => '0', script => 'markTest',          kernel => 'vmlinux' },
-    { name => 'Mark_Test_Heap',  scheme => 'UnsafeBaseline',           SG_all => '0', SG_opt => '0', script => 'markTest',          kernel => 'vmlinux_heap' },
+    { name => 'Mark_Test_Heap',  scheme => 'UnsafeBaseline',           SG_all => '0', SG_opt => '0', script => 'markTest',          kernel => 'vmlinux_SG_heap' },
 )
 {
     my $name   = $bench->{'name'};
