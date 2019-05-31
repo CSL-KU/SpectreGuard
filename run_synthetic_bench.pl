@@ -23,7 +23,7 @@ foreach my $kernel ( 'vmlinux', 'vmlinux_heap' )
 }
 
 ## uncomment this to reuse the same checkpoints
-@tasks = ();
+#@tasks = ();
 
 Monitor::do_work({
     tasks => \@tasks,
@@ -57,6 +57,40 @@ Monitor::do_work({
     tasks => \@tasks,
     max_tasks => 0,
 });
+
+## Confirm that Spectre can exploit the system and that it is mitigated
+confirm_attack();
+
+sub confirm_attack
+{
+    my $file = "./artifacts/results/synthetic/Attack_Test/bench.out";
+    
+    unless( -e $file )
+    {
+        die "File |${file}| does not exist.\nDid you run the attack benchmark??\n\n";
+    }
+    
+    my $match = `grep hit ${file}`;
+    unless( $match =~ m/\A123: [0-9]+, hit\Z/)
+    {
+        die "Could not confirm Spectre exploit works.\nManually check |${file}| for attack output.\nThere may just be noise on the side channel.\n";
+    }
+    
+    $file = "./artifacts/results/synthetic/Attack_Test_Mit/bench.out";
+    
+    unless( -e $file )
+    {
+        die "File |${file}| does not exist.\nDid you run the attack mitigation benchmark??\n\n";
+    }
+    
+    $match = `grep 123 ${file}`;
+    unless( $match =~ m/\A123: [0-9]+, miss\Z/)
+    {
+        die "Spectre mitigation failed.\nManually check |${file}| for attack output.\nThere may just be noise on the side channel.\n\n";
+    }
+    
+    print "Spectre exploit works and has been mitigated!!\n\n";
+}
 
 sub run_synthetic_bench
 {
