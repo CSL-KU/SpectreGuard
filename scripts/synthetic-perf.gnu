@@ -37,7 +37,7 @@ set arrow from -1,1 to 4,1 nohead lt 2
 # set label "4.99" at 1.45,5 font ",16" front
 set style fill pattern
 plot  "artifacts/graphs/synthetic/synthetic-perf.dat" using 2:xticlabel(1) fs pattern 0 lt -1,\
-       ''          using  6:xticlabel(1) fs pattern 1 lt -1,\
-       ''          using  8:xticlabel(1) fs pattern 2 lt -1,\
-       ''          using  4:xticlabel(1) fs pattern 3 lt -1,\
-       ''          using  5:xticlabel(1) fs pattern 4 lt -1
+       ''          using  5:xticlabel(1) fs pattern 1 lt -1,\
+       ''          using  6:xticlabel(1) fs pattern 2 lt -1,\
+       ''          using  3:xticlabel(1) fs pattern 3 lt -1,\
+       ''          using  4:xticlabel(1) fs pattern 4 lt -1
