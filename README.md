@@ -199,3 +199,28 @@ the resulting table and graph will be in the:
 ```
     
 directories. Each will contain a data file and a .pdf containing the graph.
+
+# Citation
+
+The paper for SpectreGuard can be found here http://doi.acm.org/10.1145/3316781.3317914. It can be cited using the following BibTeX entry:
+
+```
+@inproceedings{Fustos:2019:SED:3316781.3317914,
+    author = {Fustos, Jacob and Farshchi, Farzad and Yun, Heechul},
+    title = {SpectreGuard: An Efficient Data-centric Defense Mechanism Against Spectre Attacks},
+    booktitle = {Proceedings of the 56th Annual Design Automation Conference 2019},
+    series = {DAC '19},
+    year = {2019},
+    isbn = {978-1-4503-6725-7},
+    location = {Las Vegas, NV, USA},
+    pages = {61:1--61:6},
+    articleno = {61},
+    numpages = {6},
+    url = {http://doi.acm.org/10.1145/3316781.3317914},
+    doi = {10.1145/3316781.3317914},
+    acmid = {3317914},
+    publisher = {ACM},
+    address = {New York, NY, USA},
+    keywords = {Micro-architecture, Side-channel Attack, Spectre},
+}
+```
