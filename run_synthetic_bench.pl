@@ -112,7 +112,7 @@ sub run_synthetic_bench
     
     $ENV{'M5_PATH'} = "./x86-system";
     
-    system "./gem5/build/X86_MESI_Two_Level/gem5.fast -d ./artifacts/results/synthetic/${name} gem5/configs/example/fs.py --num-cpus=1 --sys-clock=2GHz --mem-type=DDR3_1600_8x8 --mem-size=100MB --caches --l2cache --l1d_size=64kB --l1i_size=16kB --l2_size=256kB --cpu-type=DerivO3CPU --cpu-clock=2GHz --network=simple --topology=Mesh_XY --mesh-rows=1 --ruby --l1d_assoc=8 --l2_assoc=16 --l1i_assoc=4 --needsTSO=0 --scheme=${scheme} --SG_all=${SG_all} --SG_opt=${SG_opt} --checkpoint-restore=1 --checkpoint-dir=artifacts/checkpoints/generic/${kernel} --restore-with-cpu=AtomicSimpleCPU --disk-image=amd64-linux.img --script=scripts/${script}.rcS > artifacts/results/synthetic/${name}/log.out 2>&1";
+    system "./gem5/build/X86_MESI_Two_Level/gem5.fast -d ./artifacts/results/synthetic/${name} gem5/configs/example/fs.py --num-cpus=1 --sys-clock=2GHz --mem-type=DDR3_1600_8x8 --mem-size=100MB --caches --l2cache --l1d_size=64kB --l1i_size=32kB --l2_size=2MB --cpu-type=DerivO3CPU --cpu-clock=2GHz --network=simple --topology=Mesh_XY --mesh-rows=1 --ruby --l1d_assoc=8 --l2_assoc=16 --l1i_assoc=4 --needsTSO=0 --scheme=${scheme} --SG_all=${SG_all} --SG_opt=${SG_opt} --checkpoint-restore=1 --checkpoint-dir=artifacts/checkpoints/generic/${kernel} --restore-with-cpu=AtomicSimpleCPU --disk-image=amd64-linux.img --script=scripts/${script}.rcS > artifacts/results/synthetic/${name}/log.out 2>&1";
 }
 
 sub create_shared_checkpoint
@@ -130,7 +130,7 @@ sub create_shared_checkpoint
     
     $ENV{'M5_PATH'} = "./x86-system";
     
-    system "./gem5/build/X86_MESI_Two_Level/gem5.fast -d artifacts/checkpoints/generic/${kernel} gem5/configs/example/fs.py --num-cpus=1 --sys-clock=2GHz --mem-type=DDR3_1600_8x8 --mem-size=100MB --caches --l2cache --l1d_size=64kB --l1i_size=16kB --l2_size=256kB --cpu-type=AtomicSimpleCPU --cpu-clock=2GHz --script=scripts/boot.rcS --disk-image=amd64-linux.img --kernel=$kernel > artifacts/checkpoints/generic/${kernel}/log.out 2>&1";
+    system "./gem5/build/X86_MESI_Two_Level/gem5.fast -d artifacts/checkpoints/generic/${kernel} gem5/configs/example/fs.py --num-cpus=1 --sys-clock=2GHz --mem-type=DDR3_1600_8x8 --mem-size=100MB --caches --l2cache --l1d_size=64kB --l1i_size=32kB --l2_size=2MB --cpu-type=AtomicSimpleCPU --cpu-clock=2GHz --script=scripts/boot.rcS --disk-image=amd64-linux.img --kernel=$kernel > artifacts/checkpoints/generic/${kernel}/log.out 2>&1";
 }
 
 exit 0;
