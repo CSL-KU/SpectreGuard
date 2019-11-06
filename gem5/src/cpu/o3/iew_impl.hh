@@ -1458,11 +1458,12 @@ DefaultIEW<Impl>::writebackInsts()
         // E.g. Strictly ordered loads have not actually executed when they
         // are first sent to commit.  Instead commit must tell the LSQ
         // when it's ready to execute the strictly ordered load.
-        if (!inst->isSquashed() && inst->isExecuted() && inst->getFault() == NoFault && !inst->WB_on_retire ) {
-            writebackDependents( inst );
-        }
-        
         inst->WBOR_can_write = true;
+        
+        if (!inst->isSquashed() && inst->isExecuted() && inst->getFault() == NoFault && (!inst->WB_on_retire || inst->isPrevBrsResolved()) ) {
+            writebackDependents( inst );
+            inst->WB_on_retire = false;
+        }
     }
 }
 
