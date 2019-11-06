@@ -290,7 +290,8 @@ ROB<Impl>::isHeadReady(ThreadID tid)
 {
     robReads++;
     if (threadEntries[tid] != 0) {
-        return instList[tid].front()->readyToCommit();
+        return (instList[tid].front()->readyToCommit() &&
+                instList[tid].front()->isLoadSafeToCommit());
     }
 
     return false;
@@ -479,7 +480,8 @@ ROB<Impl>::updateVisibleState()
                 //when entering ROB
                 prevInstsComplete = false;
             }
-            if (!inst->readyToCommit() || inst->getFault()!=NoFault
+            if (!(inst->readyToCommit() && inst->isLoadSafeToCommit())
+                    || inst->getFault()!=NoFault
                     || inst->isSquashed()){
                 prevInstsComplete = false;
             }

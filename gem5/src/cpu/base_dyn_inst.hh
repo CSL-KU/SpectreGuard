@@ -336,12 +336,12 @@ class BaseDynInst : public ExecContext, public RefCounted
 
     bool needDeletePostReq() const { return instFlags[NeedDeletePostReq]; }
     void needDeletePostReq(bool f) { instFlags[NeedDeletePostReq] = f; }
+    
+    bool fenceDelay() const { return instFlags[FenceDelay]; }
+    void fenceDelay(bool f) { instFlags[FenceDelay] = f; }
 
-    bool fenceDelay() const { return instFlags[ReadyToExpose]; }
-    void fenceDelay(bool f) { instFlags[ReadyToExpose] = f; }
-
-    bool readyToExpose() const { return instFlags[FenceDelay]; }
-    void readyToExpose(bool f) { instFlags[FenceDelay] = f; }
+    bool readyToExpose() const { return instFlags[ReadyToExpose]; }
+    void readyToExpose(bool f) { instFlags[ReadyToExpose] = f; }
 
     bool hitInvalidation() const { return instFlags[HitInvalidation]; }
     void hitInvalidation(bool f) { instFlags[HitInvalidation] = f; }
@@ -806,7 +806,24 @@ class BaseDynInst : public ExecContext, public RefCounted
 
     void setExposeCompleted() { status.set(ExposeCompleted); }
     bool isExposeCompleted() const { return status[ExposeCompleted]; }
-
+    
+    bool isLoadSafeToCommit() const {
+        if (isLoad() && !isSquashed() &&
+            getFault() == NoFault){
+            if (needPostFetch() &&
+                needExposeOnly() && !isExposeSent()){
+                return false;
+            }
+            if (needPostFetch() &&
+                !needExposeOnly() && !isExposeCompleted()){
+                return false;
+            }
+            return true;
+        } else {
+            return true;
+        }
+    }
+    
     void setExposeSent() { status.set(ExposeSent); }
     bool isExposeSent() const { return status[ExposeSent]; }
 
